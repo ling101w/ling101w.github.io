@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ling_1</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>我的博客</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-page="home">文章</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="about">我</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="links">友链</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- 首页内容 -->
+        <div id="home-page" class="page active">
+            <div class="home-layout">
+                <!-- 文章列表区域 -->
+                <section class="articles-section">
+                    <div class="section-header">
+                        <h2>最新文章</h2>
+                        <p>探索技术的边界，分享成长的故事</p>
+                    </div>
+                    <div class="articles-categories">
+                        <!-- Life 分类 -->
+                        <div class="category-section">
+                            <div class="category-header">
+                                <h3 class="category-title">
+                                    <span class="category-icon">🌸</span>
+                                    Life
+                                </h3>
+                                <p class="category-description">生活感悟与日常分享</p>
+                            </div>
+                            <div id="life-articles" class="articles-grid">
+                                <!-- Life 分类文章将通过JavaScript动态加载 -->
+                            </div>
+                        </div>
+                        
+                        <!-- Explore 分类 -->
+                        <div class="category-section">
+                            <div class="category-header">
+                                <h3 class="category-title">
+                                    <span class="category-icon">🚀</span>
+                                    Explore
+                                </h3>
+                                <p class="category-description">技术探索与学习心得</p>
+                            </div>
+                            <div id="explore-articles" class="articles-grid">
+                                <!-- Explore 分类文章将通过JavaScript动态加载 -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 关于我页面 -->
+        <div id="about-page" class="page">
+            <div class="about-layout">
+                <!-- 个人介绍卡片 -->
+                               <section class="profile-section">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <img src="me.jpg" alt="我的头像">
+                            <div class="online-status"></div>
+                        </div>
+                        
+                        <h1 class="profile-name">ling_1</h1>
+                        <div class="profile-location">
+                            <span>0x42</span>
+                        </div>
+                        
+                        <div class="profile-description">
+                            <p>梦想成为天才</p>
+                        </div>
+                        
+
+                        <div class="interests-section">
+                            <div class="interests-title">
+                                <span class="heart-icon">🎯</span>
+                                <span>兴趣爱好</span>
+                            </div>
+                            <div class="interests-tags">
+                                <span class="interest-tag reading">📚 阅读</span>
+                                <span class="interest-tag music">🎸 吉他</span>
+                                <span class="interest-tag photography">🏀 篮球</span>
+                                <span class="interest-tag baking">⌨️ 代码</span>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" class="social-link wechat" title="微信">
+                                <span class="social-icon">💬</span>
+                            </a>
+                            <a href="#" class="social-link qq" title="QQ">
+                                <span class="social-icon">🐧</span>
+                            </a>
+                            <a href="#" class="social-link weibo" title="微博">
+                                <span class="social-icon">🔴</span>
+                            </a>
+                            <a href="#" class="social-link email" title="邮箱">
+                                <span class="social-icon">📧</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 详细介绍内容 -->
+                <section class="about-details">
+                    <h1>关于我</h1>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h2>你好，我是ling_1</h2>
+                            <p>欢迎来到我的个人博客！我是一名热爱技术和分享的开发者。</p>
+                            <p>在这里，我会分享我的学习心得、技术经验和生活感悟。希望我的文章能对你有所帮助。</p>
+                            <ul>
+                                <li>🎓 计算机相关专业背景</li>
+                                <li>💻 前端/后端开发经验</li>
+                                <li>🎯 持续学习新技术</li>
+                                <li>📝 喜欢写作和分享</li>
+                            </ul>
+                            <p>如果你有任何问题或想法，欢迎通过以下方式联系我：</p>
+                            <div class="contact-links">
+                                <a href="#" class="contact-link">GitHub</a>
+                                <a href="#" class="contact-link">邮箱</a>
+                                <a href="#" class="contact-link">微博</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 友链页面 -->
+        <div id="links-page" class="page">
+            <div class="links-container">
+                <div id="links-content">
+                    <!-- 友链内容将通过JavaScript从友链.md文件动态加载 -->
+                    <h1>友情链接</h1>
+                    <p>加载中...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文章详情页面 -->
+        <div id="article-page" class="page">
+            <div class="article-container">
+                <button id="back-btn" class="back-btn">← 返回首页</button>
+                <article id="article-content">
+                    <!-- 文章内容将通过JavaScript动态加载 -->
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 我的博客. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
