@@ -1,0 +1,542 @@
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 主体样式 - 武侠风格背景 */
+body {
+    font-family: 'Ma Shan Zheng', 'Zhi Mang Xing', serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+    background-size: 400% 400%;
+    animation: ancientGradient 20s ease infinite;
+    color: #f4e4c1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+@keyframes ancientGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 山水背景 */
+.mountain-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 20% 80%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(105, 105, 105, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 40% 90%, rgba(47, 79, 79, 0.3) 0%, transparent 50%);
+    z-index: -2;
+    animation: mountainFloat 30s ease-in-out infinite;
+}
+
+@keyframes mountainFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 云雾效果 */
+.clouds-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 30%),
+        radial-gradient(ellipse at 90% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 10%, rgba(255, 255, 255, 0.06) 0%, transparent 35%);
+    z-index: -1;
+    animation: cloudsMove 40s linear infinite;
+}
+
+@keyframes cloudsMove {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(100px); }
+}
+
+/* 飘落花瓣容器 */
+.petals-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 主容器 */
+.countdown-container {
+    text-align: center;
+    padding: 3rem;
+    border-radius: 20px;
+    background: 
+        linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(160, 82, 45, 0.1) 100%),
+        radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 215, 0, 0.2),
+        inset 0 -1px 0 rgba(139, 69, 19, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    z-index: 2;
+    max-width: 1000px;
+    width: 90%;
+    position: relative;
+    overflow: visible;
+}
+
+/* 古代装饰边框 */
+.ancient-border {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    pointer-events: none;
+}
+
+.corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 3px solid #ffd700;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+}
+
+.corner.top-left {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 20px 0 0 0;
+}
+
+.corner.top-right {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+    border-radius: 0 20px 0 0;
+}
+
+.corner.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 0 20px;
+}
+
+.corner.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+    border-radius: 0 0 20px 0;
+}
+
+/* 标题区域 */
+.title-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.sword-decoration {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent 0%, #ffd700 50%, transparent 100%);
+    position: relative;
+    margin: 0 2rem;
+}
+
+.sword-decoration::before {
+    content: '⚔';
+    position: absolute;
+    top: -12px;
+    font-size: 1.5rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.sword-decoration.left::before {
+    right: -10px;
+}
+
+.sword-decoration.right::before {
+    left: -10px;
+}
+
+h1 {
+    font-family: 'Ma Shan Zheng', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #ffd700, #ffed4e, #ff6b6b, #ffd700);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.6),
+        0 0 60px rgba(255, 215, 0, 0.4);
+    animation: titleGlow 4s ease-in-out infinite, titleShine 8s linear infinite;
+    letter-spacing: 0.1em;
+}
+
+@keyframes titleGlow {
+    0%, 100% { 
+        text-shadow: 
+            0 0 30px rgba(255, 215, 0, 0.6),
+            0 0 60px rgba(255, 215, 0, 0.4);
+    }
+    50% { 
+        text-shadow: 
+            0 0 40px rgba(255, 215, 0, 0.8),
+            0 0 80px rgba(255, 215, 0, 0.6),
+            0 0 120px rgba(255, 107, 107, 0.4);
+    }
+}
+
+@keyframes titleShine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+.subtitle {
+    font-family: 'Zhi Mang Xing', serif;
+    font-size: 1.5rem;
+    color: #d4af37;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    letter-spacing: 0.2em;
+}
+
+/* 倒计时标题 */
+.countdown-title {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.ancient-text {
+    color: #f4e4c1;
+    text-shadow: 0 0 20px rgba(244, 228, 193, 0.5);
+    letter-spacing: 0.15em;
+    position: relative;
+}
+
+.ancient-text::before,
+.ancient-text::after {
+    content: '◆';
+    color: #ffd700;
+    font-size: 0.8em;
+    margin: 0 1rem;
+    animation: sparkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes sparkle {
+    0% { opacity: 0.5; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* 倒计时数字区域 */
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.time-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.time-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+        radial-gradient(circle, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.1) 70%),
+        linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+    border: 3px solid rgba(255, 215, 0, 0.4);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.3),
+        inset 0 0 20px rgba(139, 69, 19, 0.2);
+    animation: timeGlow 3s ease-in-out infinite;
+}
+
+@keyframes timeGlow {
+    0%, 100% { 
+        box-shadow: 
+            0 0 30px rgba(255, 215, 0, 0.3),
+            inset 0 0 20px rgba(139, 69, 19, 0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 0 50px rgba(255, 215, 0, 0.6),
+            inset 0 0 30px rgba(139, 69, 19, 0.4);
+    }
+}
+
+.time {
+    font-family: 'Ma Shan Zheng', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    z-index: 2;
+    position: relative;
+    animation: numberPulse 2s ease-in-out infinite;
+}
+
+@keyframes numberPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.time-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.label {
+    font-family: 'Zhi Mang Xing', serif;
+    font-size: 1.2rem;
+    color: #d4af37;
+    margin-top: 1rem;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    letter-spacing: 0.1em;
+}
+
+/* 结束时间 */
+.end-time {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.modern-time {
+    color: #b8860b;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* 安全徽章 */
+.security-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    background: 
+        linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.2) 100%),
+        radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 50px;
+    color: #f4e4c1;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.security-badge:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+/* 点击动效 */
+.security-badge:active {
+    transform: translateY(-2px) scale(0.98);
+    transition: all 0.1s ease;
+}
+
+.security-badge.clicked {
+    animation: badgeClickEffect 0.8s ease-out;
+}
+
+@keyframes badgeClickEffect {
+    0% {
+        transform: translateY(-5px) scale(1.05);
+    }
+    15% {
+        transform: translateY(-8px) scale(1.1) rotate(2deg);
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.5),
+            0 0 50px rgba(255, 215, 0, 0.8),
+            0 0 100px rgba(255, 69, 0, 0.4);
+    }
+    30% {
+        transform: translateY(-10px) scale(1.15) rotate(-1deg);
+        box-shadow: 
+            0 25px 60px rgba(0, 0, 0, 0.6),
+            0 0 60px rgba(255, 215, 0, 1),
+            0 0 120px rgba(255, 69, 0, 0.6);
+    }
+    50% {
+        transform: translateY(-8px) scale(1.1) rotate(1deg);
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.5),
+            0 0 50px rgba(255, 215, 0, 0.8),
+            0 0 100px rgba(255, 69, 0, 0.4);
+    }
+    70% {
+        transform: translateY(-6px) scale(1.08) rotate(-0.5deg);
+    }
+    85% {
+        transform: translateY(-5px) scale(1.05) rotate(0.2deg);
+    }
+    100% {
+        transform: translateY(-5px) scale(1.05) rotate(0deg);
+        box-shadow: 
+            0 15px 40px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(255, 215, 0, 0.4);
+    }
+}
+
+.security-badge i {
+    color: #ffd700;
+    font-size: 1.3rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    transition: transform 0.3s ease;
+}
+
+.security-badge:hover i {
+    transform: rotate(15deg) scale(1.1);
+}
+
+.badge-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+    animation: badgeShine 3s ease-in-out infinite;
+}
+
+@keyframes badgeShine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* 粒子背景 */
+#particle-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .countdown {
+        gap: 2rem;
+    }
+    
+    .time-container {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .time {
+        font-size: 2.5rem;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    .sword-decoration {
+        width: 50px;
+        margin: 0 1rem;
+    }
+    
+    .countdown-container {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown {
+        gap: 1rem;
+    }
+    
+    .time-container {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .time {
+        font-size: 2rem;
+    }
+    
+    .label {
+        font-size: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .countdown-container {
+        padding: 1.5rem;
+    }
+    
+    .corner {
+        width: 40px;
+        height: 40px;
+    }
+}

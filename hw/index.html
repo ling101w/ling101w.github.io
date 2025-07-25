@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025国家安全攻防演练倒计时</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 背景山水画效果 -->
+    <div class="mountain-bg"></div>
+    <div class="clouds-bg"></div>
+    
+    <!-- 飘落的花瓣 -->
+    <div class="petals-container"></div>
+    
+    <div class="countdown-container">
+        <!-- 武侠风格装饰边框 -->
+        <div class="ancient-border">
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+        </div>
+        
+        <!-- 主标题 -->
+        <div class="title-section">
+            <div class="sword-decoration left"></div>
+            <h1>攻防演练</h1>
+            <div class="sword-decoration right"></div>
+        </div>
+        
+        <div class="subtitle">二〇二五年</div>
+        
+        <div class="countdown-title">
+            <span class="ancient-text">事了拂衣去，深藏身与名</span>
+        </div>
+        
+        <!-- 倒计时区域 -->
+        <div class="countdown" id="countdown">
+            <div class="time-section">
+                <div class="time-container">
+                    <div class="time" id="days">00</div>
+                    <div class="time-glow"></div>
+                </div>
+                <div class="label">天</div>
+            </div>
+            <div class="time-section">
+                <div class="time-container">
+                    <div class="time" id="hours">00</div>
+                    <div class="time-glow"></div>
+                </div>
+                <div class="label">时</div>
+            </div>
+            <div class="time-section">
+                <div class="time-container">
+                    <div class="time" id="minutes">00</div>
+                    <div class="time-glow"></div>
+                </div>
+                <div class="label">分</div>
+            </div>
+            <div class="time-section">
+                <div class="time-container">
+                    <div class="time" id="seconds">00</div>
+                    <div class="time-glow"></div>
+                </div>
+                <div class="label">秒</div>
+            </div>
+        </div>
+        
+        <div class="end-time">
+            <span class="ancient-text">辛苦了，战斗到今天的侠客们</span>
+            <br>
+            <span class="modern-time">(2025年7月31日 18:00:00)</span>
+        </div>
+        
+        <div class="security-badge">
+            <span>功成事毕，奉身而退</span>
+            <div class="badge-glow"></div>
+        </div>
+    </div>
+    
+    <!-- 粒子背景 -->
+    <canvas id="particle-bg"></canvas>
+    
+    <script src="script.js"></script>
+</body>
+</html>
