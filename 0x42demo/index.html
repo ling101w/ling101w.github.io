@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0x42安全团队 - 0x42 Cyber Security</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Matrix Rain Background -->
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Glitch Effect Overlay -->
+    <div class="glitch-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <span class="brand-name glitch-text glitch-hover text-scramble" data-text="0x42Sec">0x42-Sec</span>
+                    <span class="brand-subtitle typing-effect">L1in9</span>
+                </div>
+                <div class="nav-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#home" class="nav-link neon-text interactive-element">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#about" class="nav-link neon-text interactive-element">Member</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#awards" class="nav-link neon-text interactive-element">Harvest</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#contact" class="nav-link neon-text interactive-element">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero-section">
+            <div class="hero-particles"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title glitch-text hologram text-scramble" data-text="ELITE CYBER SECURITY">0x42 CYBER SECURITY</h1>
+                    <div class="hero-separator neon-line animate-on-hover">2025小组纳新</div>
+                    <p class="hero-subtitle typing-effect neon-text">Penetrating • Defending • Innovating</p>
+                    <div class="hero-stats">
+                        <div class="stat-item interactive-element magnetic">
+                            <span class="stat-number" data-target="137">0</span>
+                            <span class="stat-label">漏洞</span>
+                        </div>
+                        <div class="stat-item interactive-element magnetic">
+                            <span class="stat-number" data-target="12">0</span>
+                            <span class="stat-label">CTF奖项</span>
+                        </div>
+                        <div class="stat-item interactive-element magnetic">
+                            <span class="stat-number" data-target="99">0</span>
+                            <span class="stat-label">安全得分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator interactive-element">
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="container">
+                <h2 class="section-title glitch-text text-scramble hologram" data-text="TEAM MEMBERS">TEAM MEMBERS</h2>
+                <div class="team-grid">
+                    <div class="team-member cyber-card card-enhanced tilt-effect particle-hover fade-in-up stagger-1">
+                        <div class="member-avatar">
+                            <img src="微信图片_20250319202330.jpg" alt="Alex Chen" class="avatar-image interactive-element">
+                            <div class="status-indicator online"></div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name neon-text text-scramble">L1ng</h3>
+                            <div class="member-role">Penetration Tester</div>
+                            <div class="member-bio">
+                                <p>数年安全经验，Web渗透测试和红队攻击</p>
+                            </div>
+                            <div class="member-skills">
+                                <span class="skill-tag interactive-element btn-ripple">CNVD</span>
+                                <span class="skill-tag interactive-element btn-ripple">Python</span>
+                                <span class="skill-tag interactive-element btn-ripple">Java</span>
+                                <br/>
+                                <span class="skill-tag interactive-element btn-ripple">Metasploit</span>
+                            </div>
+                            <div class="member-contact">
+                                <span class="contact-item interactive-element">原来你也玩原神</span>
+                                <!-- <a href="https://twitter.com/AlexChen_Sec" target="_blank" class="contact-item blog-link interactive-element neon-border">🐦 @AlexChen_Sec</a> -->
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <div class="team-member cyber-card card-enhanced tilt-effect particle-hover fade-in-up stagger-2">
+                        <div class="member-avatar">
+                            <div class="avatar-placeholder interactive-element">👩‍💻</div>
+                            <div class="status-indicator online"></div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name neon-text text-scramble">Sarah</h3>
+                            <div class="member-role">Vulnerability Researcher</div>
+                            <div class="member-bio">
+                                <p>专注于0day挖掘和逆向工程</p>
+                            </div>
+                            <div class="member-skills">
+                                <span class="skill-tag interactive-element btn-ripple">IDA Pro</span>
+                                <span class="skill-tag interactive-element btn-ripple">Ghidra</span>
+                                <span class="skill-tag interactive-element btn-ripple">Fuzzing</span>
+                                <span class="skill-tag interactive-element btn-ripple">C/C++</span>
+                            </div>
+                            <div class="member-contact">
+                                <span class="contact-item interactive-element">我爱吃馒头</span>
+                             </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <div class="team-member cyber-card card-enhanced tilt-effect particle-hover fade-in-up stagger-3">
+                        <div class="member-avatar">
+                            <div class="avatar-placeholder interactive-element">👨‍💻</div>
+                            <div class="status-indicator away"></div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name neon-text text-scramble">Zhuoyun Qian</h3>
+                            <div class="member-role">Malware Analyst</div>
+                            <div class="member-bio">
+                                <p>恶意软件分析专家</p>
+                            </div>
+                            <div class="member-skills">
+                                <span class="skill-tag interactive-element btn-ripple">YARA</span>
+                                <span class="skill-tag interactive-element btn-ripple">Volatility</span>
+                                <span class="skill-tag interactive-element btn-ripple">Assembly</span>
+                                <span class="skill-tag interactive-element btn-ripple">SANS</span>
+                            </div>
+                            <div class="member-contact">
+                                <span class="contact-item interactive-element">interested in vulnerability</span>
+                             </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="awards" class="awards-section">
+            <div class="container">
+                <h2 class="section-title glitch-text" data-text="点击即送">点击即送</h2>
+                <div class="awards-grid">
+                    <div class="award-item">
+                        <div class="award-icon">🏆</div>
+                        <h3>CTF奖项</h3>
+                        <p>参与众多CTF竞赛，获得CTF奖项。有专业CTF平台，专业资源指导。</p>
+                    </div>
+                    <div class="award-item">
+                        <div class="award-icon">🎯</div>
+                        <h3>漏洞护网奖金</h3>
+                        <p>参与众多SRC，护网攻防，收获众多经验与金币。</p>
+                    </div>
+                    <div class="award-item">
+                        <div class="award-icon">🎈</div>
+                        <h3>丰富资源</h3>
+                        <p>众多资源，包括不限CTF专业指导培训，抢课系统，信科小程序签到破解，校园网付费破解...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2 class="section-title glitch-text" data-text="我要加入">我要加入</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            
+                            <br/>
+                            <span>
+                                无门槛 点击即送
+                                <br/>
+                                <img src="5092b0dc-beca-4b6f-8b9a-1c1f52fd6b12.png" alt="contact@0x42sec.com"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <span class="btn red"></span>
+                                <span class="btn yellow"></span>
+                                <span class="btn green"></span>
+                            </div>
+                            <span class="terminal-title">0x42sec@terminal:~$</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-line">
+                                <span class="prompt">root@0x42:~# </span>
+                                <span class="command typing-command">echo "Welcome to 0x42 Security Team"</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="output">Welcome to 0x42 Security Team</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="prompt">root@0x42:~#cat /fla* </span>
+                                <span class="cursor">_</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 0x42网安小组. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#" class="neon-text">这里</a>
+                    <a href="#" class="neon-text">啥也</a>
+                    <a href="phishing-quiz.html" class="neon-text">反钓鱼答题</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
