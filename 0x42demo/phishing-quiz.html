@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>钓鱼网站识别答题 - 0x42 Security</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .quiz-container { max-width: 1000px; margin: 120px auto 60px; padding: 0 20px; }
+        .quiz-header { text-align: center; margin-bottom: 30px; }
+        .quiz-description { color: var(--text-gray); margin-top: 10px; }
+        .question-card { margin: 18px 0; padding: 20px; border: 1px solid rgba(0,255,65,0.2); border-radius: 12px; background: rgba(10,10,10,0.6); box-shadow: 0 0 20px rgba(0,255,65,0.08); }
+        .question-title { font-weight: 700; margin-bottom: 10px; }
+        .question-body { color: var(--text-light); }
+        .question-meta { color: var(--text-gray); font-size: 14px; margin-top: 6px; }
+        .options { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-item { padding: 10px 12px; border: 1px dashed rgba(0,255,65,0.2); border-radius: 8px; cursor: pointer; }
+        .option-item:hover { border-color: var(--accent-color); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+        .submit-row { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
+        .btn-primary { padding: 12px 18px; border: 1px solid var(--primary-color); color: var(--primary-color); background: transparent; border-radius: 8px; cursor: pointer; font-family: 'Orbitron', monospace; text-transform: uppercase; }
+        .btn-primary:hover { color: var(--accent-color); border-color: var(--accent-color); box-shadow: 0 0 15px rgba(0,212,255,0.35); }
+        .score-box { font-family: 'Orbitron', monospace; }
+        .explain { margin-top: 10px; padding: 10px; border-radius: 8px; background: rgba(0, 212, 255, 0.06); border: 1px solid rgba(0,212,255,0.2); display: none; }
+        .explain-toggle { color: var(--accent-color); cursor: pointer; font-size: 14px; }
+        .result-correct { outline: 1px solid rgba(0,255,65,0.4); box-shadow: 0 0 12px rgba(0,255,65,0.15); }
+        .result-wrong { outline: 1px solid rgba(255,0,128,0.4); box-shadow: 0 0 12px rgba(255,0,128,0.15); }
+        .top-bar { position: fixed; top: 0; left: 0; width: 100%; z-index: 999; background: rgba(10,10,10,0.9); border-bottom: 1px solid rgba(0,255,65,0.1); backdrop-filter: blur(8px); }
+        .top-inner { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .back-link { text-decoration: none; color: var(--primary-color); }
+        /* Result screen styles */
+        #result { display: none; }
+        .result-section { max-width: 900px; margin: 140px auto 60px; padding: 0 20px; text-align: center; }
+        .result-section .section-title { font-size: 52px; }
+        .result-card { padding: 48px 40px; border: 1px solid rgba(0,255,65,0.2); border-radius: 12px; background: rgba(10,10,10,0.6); box-shadow: 0 0 20px rgba(0,255,65,0.08); display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .result-score { font-size: 88px; line-height: 1; font-family: 'Orbitron', monospace; color: var(--primary-color); text-shadow: var(--neon-glow); margin: 10px 0 8px; letter-spacing: 2px; }
+        .result-tips { color: var(--text-light); opacity: 0.95; font-size: 32px; font-weight: 600; line-height: 1.4; max-width: 820px; margin: 12px auto 26px; text-align: center; }
+        .result-actions { display: flex; gap: 12px; justify-content: center; }
+        .btn-secondary { padding: 12px 18px; border: 1px solid rgba(0,212,255,0.6); color: var(--accent-color); background: transparent; border-radius: 8px; cursor: pointer; font-family: 'Orbitron', monospace; text-transform: uppercase; }
+        .btn-secondary:hover { box-shadow: 0 0 15px rgba(0,212,255,0.35); }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="glitch-overlay"></div>
+
+    <div class="top-bar">
+        <div class="top-inner">
+            <div>
+                <span class="brand-name glitch-text text-scramble" data-text="0x42Sec">0x42-Sec</span>
+                <span class="brand-subtitle">Phishing Quiz</span>
+            </div>
+            <a class="back-link neon-text" href="index.html">返回主页</a>
+        </div>
+    </div>
+
+    <main class="quiz-container">
+        <div class="quiz-header">
+            <h1 class="section-title glitch-text hologram" data-text="钓鱼网站识别答题">钓鱼网站识别答题</h1>
+            <p class="quiz-description">请选择每题的正确答案：判断场景是否为钓鱼。提交后会得到评分与解析。</p>
+        </div>
+
+        <section id="quiz" class="quiz-section">
+            <!-- Q1 -->
+            <div class="question-card cyber-card" data-correct="是">
+                <div class="question-title neon-text">Q1</div>
+                <div class="question-body">
+                    你收到一条信息，链接指向：<span class="neon-text">https://secure-paypal.com.cn/login</span>，页面风格与 PayPal 极为相似。该场景是否为钓鱼？
+                </div>
+                <div class="question-meta">提示：域名是否为官方？顶级域与品牌是否一致？</div>
+                <div class="options">
+                    <label class="option-item"><input type="radio" name="q1" value="是"> 是，域名仿冒</label>
+                    <label class="option-item"><input type="radio" name="q1" value="否"> 否，是真实官网</label>
+                </div>
+                <div class="explain">
+                    正解：<b>是</b>。官方域名应为 paypal.com / paypal.cn 等，<code>secure-paypal.com.cn</code> 是子域与品牌组合的仿冒手法，常见钓鱼。
+                </div>
+                <div class="explain-toggle">查看解析 ▸</div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-card cyber-card" data-correct="是">
+                <div class="question-title neon-text">Q2</div>
+                <div class="question-body">
+                    网页弹窗提示“为提高安全性，请先安装安全插件并输入短信验证码，否则无法登录”。该场景是否为钓鱼？
+                </div>
+                <div class="question-meta">提示：诱导安装插件＋索取验证码，是否合理？</div>
+                <div class="options">
+                    <label class="option-item"><input type="radio" name="q2" value="是"> 是，典型社工诱导</label>
+                    <label class="option-item"><input type="radio" name="q2" value="否"> 否，安全增强流程</label>
+                </div>
+                <div class="explain">
+                    正解：<b>是</b>。正规站点不会强制安装未知插件，更不会在同一流程索取验证码，这类操作常用于窃取账号。
+                </div>
+                <div class="explain-toggle">查看解析 ▸</div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-card cyber-card" data-correct="是">
+                <div class="question-title neon-text">Q3</div>
+                <div class="question-body">
+                    访问登录页时浏览器显示“不安全”，地址以 <span class="neon-text">http://</span> 开头，证书不受信。该场景是否为钓鱼？
+                </div>
+                <div class="question-meta">提示：登录页是否必须 HTTPS 与有效证书？</div>
+                <div class="options">
+                    <label class="option-item"><input type="radio" name="q3" value="是"> 是，高风险仿冒</label>
+                    <label class="option-item"><input type="radio" name="q3" value="否"> 否，情况正常</label>
+                </div>
+                <div class="explain">
+                    正解：<b>是</b>。正规登录页必须使用 HTTPS 并配备可信证书，HTTP 或证书异常高度可疑。
+                </div>
+                <div class="explain-toggle">查看解析 ▸</div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-card cyber-card" data-correct="是">
+                <div class="question-title neon-text">Q4</div>
+                <div class="question-body">
+                    页面显示客服邮箱：<span class="neon-text">support@apple-security-login.com</span>，并引导你在该站点输入 Apple ID。该场景是否为钓鱼？
+                </div>
+                <div class="question-meta">提示：品牌域名是否正统？</div>
+                <div class="options">
+                    <label class="option-item"><input type="radio" name="q4" value="是"> 是，域名可疑</label>
+                    <label class="option-item"><input type="radio" name="q4" value="否"> 否，可信</label>
+                </div>
+                <div class="explain">
+                    正解：<b>是</b>。Apple 官方域应为 <code>apple.com</code> 相关，<code>apple-security-login.com</code> 极可能为仿冒域名。
+                </div>
+                <div class="explain-toggle">查看解析 ▸</div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-card cyber-card" data-correct="是">
+                <div class="question-title neon-text">Q5</div>
+                <div class="question-body">
+                    你收到“紧急！账号已冻结，需立即验证”邮件，链接跳转到一个外观像银行的网站，语法错误较多。该场景是否为钓鱼？
+                </div>
+                <div class="question-meta">提示：紧迫感＋语言错误是常见钓鱼信号。</div>
+                <div class="options">
+                    <label class="option-item"><input type="radio" name="q5" value="是"> 是，典型钓鱼邮件</label>
+                    <label class="option-item"><input type="radio" name="q5" value="否"> 否，银行通知</label>
+                </div>
+                <div class="explain">
+                    正解：<b>是</b>。钓鱼常通过制造紧迫感与低质文案诱导点击并输入敏感信息。
+                </div>
+                <div class="explain-toggle">查看解析 ▸</div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question-card cyber-card" data-correct="是">
+                <div class="question-title neon-text">Q6</div>
+                <div class="question-body">
+                    登录页地址栏显示锁标记，但域名为：<span class="neon-text">accounts-google.com-verify.info</span>。该场景是否为钓鱼？
+                </div>
+                <div class="question-meta">提示：有锁不等于安全，关键是<strong>正确域名</strong>。</div>
+                <div class="options">
+                    <label class="option-item"><input type="radio" name="q6" value="是"> 是，域名伪装</label>
+                    <label class="option-item"><input type="radio" name="q6" value="否"> 否，安全可信</label>
+                </div>
+                <div class="explain">
+                    正解：<b>是</b>。HTTPS 仅表示传输加密，<code>accounts-google.com-verify.info</code> 并非官方域，属于常见仿冒结构。
+                </div>
+                <div class="explain-toggle">查看解析 ▸</div>
+            </div>
+
+            <div class="submit-row">
+                <button id="submitBtn" class="btn-primary neon-border">提交答卷</button>
+                <div id="scoreBox" class="score-box">当前得分：<span id="scoreValue">0</span> / <span id="totalValue">6</span></div>
+            </div>
+        </section>
+
+        <!-- 正确的结果页结构（修复并置中显示） -->
+        <section id="result" class="result-section">
+            <div class="result-card cyber-card">
+                <h2 class="section-title glitch-text" data-text="得分">得分</h2>
+                <div id="finalScore" class="result-score">0 / 0</div>
+                <div id="resultDesc" class="result-tips">保持警惕，核验域名、证书、内容质量与索取信息的合理性。</div>
+                <div class="result-actions">
+                    <a class="btn-primary neon-border" href="index.html">返回主页</a>
+                    <button id="retryBtn" class="btn-secondary neon-border">重新答题</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 0x42 网安小组. 保持警觉，谨防钓鱼。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = Array.from(document.querySelectorAll('.question-card'));
+            const total = cards.length;
+            document.getElementById('totalValue').textContent = total;
+            const scoreValue = document.getElementById('scoreValue');
+            const quizSection = document.getElementById('quiz');
+            const resultSection = document.getElementById('result');
+            const finalScore = document.getElementById('finalScore');
+            const resultDesc = document.getElementById('resultDesc');
+            const retryBtn = document.getElementById('retryBtn');
+
+            // 解析展开/收起
+            document.querySelectorAll('.explain-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const explain = toggle.previousElementSibling;
+                    const open = explain.style.display === 'block';
+                    explain.style.display = open ? 'none' : 'block';
+                    toggle.textContent = open ? '查看解析 ▸' : '收起解析 ▾';
+                });
+            });
+
+            // 点击选项高亮该卡片
+            cards.forEach(card => {
+                card.addEventListener('change', () => {
+                    card.classList.remove('result-correct','result-wrong');
+                });
+            });
+
+            document.getElementById('submitBtn').addEventListener('click', () => {
+                let score = 0;
+                cards.forEach((card, idx) => {
+                    const qname = 'q' + (idx + 1);
+                    const selected = document.querySelector('input[name="' + qname + '"]:checked');
+                    const correct = card.getAttribute('data-correct');
+                    card.classList.remove('result-correct','result-wrong');
+                    if (selected) {
+                        if (selected.value === correct) {
+                            score++;
+                            card.classList.add('result-correct');
+                        } else {
+                            card.classList.add('result-wrong');
+                        }
+                    } else {
+                        card.classList.add('result-wrong');
+                    }
+                });
+                scoreValue.textContent = score;
+                // 跳转到得分界面（前端切换视图）
+                finalScore.textContent = score + ' / ' + total;
+                const rate = score / total;
+                resultDesc.textContent = rate === 1 ? '完美！你对钓鱼识别非常熟练。' : (rate >= 0.66 ? '不错！再多留意域名与证书细节，可进一步提升。' : '建议加强练习：识别伪造域名、异常索取、非 HTTPS 等常见钓鱼特征。');
+                quizSection.style.display = 'none';
+                resultSection.style.display = 'block';
+                location.hash = '#result';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            retryBtn.addEventListener('click', () => {
+                // 重置选项与状态
+                cards.forEach((card, idx) => {
+                    const qname = 'q' + (idx + 1);
+                    const checked = document.querySelector('input[name="' + qname + '"]:checked');
+                    if (checked) checked.checked = false;
+                    card.classList.remove('result-correct','result-wrong');
+                    const ex = card.querySelector('.explain');
+                    if (ex) ex.style.display = 'none';
+                    const toggle = card.querySelector('.explain-toggle');
+                    if (toggle) toggle.textContent = '查看解析 ▸';
+                });
+                scoreValue.textContent = 0;
+                resultSection.style.display = 'none';
+                quizSection.style.display = 'block';
+                location.hash = '#quiz';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
