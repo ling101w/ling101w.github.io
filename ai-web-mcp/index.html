@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 智能渗透测试</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050506;
+      --panel: rgba(20, 6, 10, 0.8);
+      --panel-border: rgba(255, 65, 105, 0.4);
+      --accent: #ff385d;
+      --accent-soft: #ff5d80;
+      --text: #f8f8ff;
+      --text-muted: rgba(255, 255, 255, 0.75);
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, rgba(255, 56, 93, 0.12), transparent 40%), var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(transparent 95%, rgba(255, 255, 255, 0.05) 95%) 0 0 / 3rem 3rem,
+        linear-gradient(90deg, transparent 95%, rgba(255, 255, 255, 0.05) 95%) 0 0 / 3rem 3rem;
+      opacity: 0.35;
+    }
+
+    body::after {
+      background: radial-gradient(circle at 10% 20%, rgba(255, 88, 156, 0.15), transparent 60%),
+        radial-gradient(circle at 80% 0%, rgba(255, 102, 51, 0.15), transparent 45%);
+      opacity: 1;
+    }
+
+    main {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+      padding-bottom: 8rem;
+    }
+
+    header {
+      padding: 2rem 0 5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin: 2.5rem auto;
+      display: grid;
+      place-items: center;
+      font-family: var(--mono);
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      box-shadow: 0 0 40px rgba(255, 56, 93, 0.45);
+      position: relative;
+      overflow: hidden;
+      animation: float 5s ease-in-out infinite, glow 5s ease-in-out infinite;
+    }
+
+    .hero-logo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 20%, rgba(255, 56, 93, 0.15), transparent 80%);
+      animation: sweep 4s linear infinite;
+    }
+
+    .hero-logo img {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 0 12px rgba(255, 88, 122, 0.5));
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes sweep {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 25px rgba(255, 56, 93, 0.45);
+      }
+      50% {
+        box-shadow: 0 0 45px rgba(255, 130, 165, 0.65);
+      }
+      100% {
+        box-shadow: 0 0 25px rgba(255, 56, 93, 0.45);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 5vw, 4.6rem);
+      margin: 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: var(--text);
+    }
+
+    .hero-sub {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tagline {
+      margin: 2rem auto 3rem;
+      padding: 1rem 1.5rem;
+      border: 1px solid var(--panel-border);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--mono);
+      background: rgba(255, 56, 93, 0.08);
+    }
+
+    .cta {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .cta a {
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--text);
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta a.primary {
+      background: linear-gradient(135deg, var(--accent), #ff784e);
+      box-shadow: 0 0 25px rgba(255, 88, 122, 0.5);
+    }
+
+    .cta a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.18);
+    }
+
+    section {
+      margin-top: 4rem;
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(255, 56, 93, 0.2), transparent 55%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .focus-section {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 3.5rem 0;
+    }
+
+    .focus-section::after {
+      display: none;
+    }
+
+    .focus-heading {
+      text-align: center;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      letter-spacing: 0.35em;
+      color: #ff4b67;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 20px rgba(255, 56, 93, 0.7);
+    }
+
+    .focus-panel {
+      margin: 0 auto;
+      max-width: 1000px;
+      background: linear-gradient(145deg, rgba(10, 0, 0, 0.55), rgba(33, 6, 12, 0.75));
+      border: 1px solid rgba(255, 65, 105, 0.4);
+      border-radius: 18px;
+      padding: 2.75rem 3rem;
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .focus-panel p {
+      font-size: 1.05rem;
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .focus-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem;
+      border: 1px solid var(--panel-border);
+      border-radius: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      text-align: center;
+      font-family: var(--mono);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--panel-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      background: rgba(5, 5, 10, 0.6);
+      backdrop-filter: blur(10px);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      color: #fff;
+    }
+
+    .card p,
+    .card ul {
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    .card ul {
+      padding-left: 1.2rem;
+      color: var(--text-muted);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .timeline-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .timeline-step span {
+      font-family: var(--mono);
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    pre {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: #ffe5ef;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    th {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-soft);
+    }
+
+    a {
+      color: var(--accent-soft);
+    }
+
+    footer {
+      text-align: center;
+      padding: 4rem 0 2rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 2rem 1.5rem;
+      }
+
+      .tagline {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="hero-logo">
+        <img src="https://www.hexstrike.com/hexstrike-logo.png" alt="Logo" />
+      </div>
+      <h1>AI 渗透测试控制台</h1>
+      <p class="hero-sub">
+        AI + Kali Linux + MCP 的自适应渗透测试工作台，借助 Dify 工作流驱动智能侦察、漏洞验证与知识沉淀，
+        用更少人工处理更多高价值安全任务。
+      </p>
+      <div class="tagline">
+        <span>自动侦察 · 智能验证 · 报告沉淀</span>
+      </div>
+      <div class="cta">
+        <a class="primary" href="#quickstart">立即上手</a>
+        <a href="#documentation">查看文档</a>
+        <a href="README.md" target="_blank" rel="noopener noreferrer">下载 README</a>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <strong>3+</strong>
+          AI 决策阶段
+        </div>
+        <div class="stat-card">
+          <strong>10+</strong>
+          核心安全工具
+        </div>
+        <div class="stat-card">
+          <strong>100%</strong>
+          Dify 工作流驱动
+        </div>
+        <div class="stat-card">
+          <strong>∞</strong>
+          可扩展知识库
+        </div>
+      </div>
+    </header>
+
+    <section id="about" class="focus-section">
+      <h2 class="focus-heading">关于平台</h2>
+      <div class="focus-panel">
+        <p>
+          AI 智能渗透测试评估控制台将传统渗透工具与 AI 代理融合：从 DNS、端口和指纹侦察，到漏洞验证与报告生成，
+          所有决策都由 Dify 工作流驱动的多智能体协同完成。
+        </p>
+        <p>
+          系统支持人机协作，可将结果推送到 MCP 或自定义的安全运营链路中，
+          让团队以更少人工处理更多高价值安全任务。
+        </p>
+      </div>
+      <div class="grid cols-3" style="margin-top:3rem;">
+        <div class="card">
+          <h3>智能策略内核</h3>
+          <p>根据目标画像与扫描反馈自动调整探测深度、顺序与验证方式，摆脱固定脚本式扫描。</p>
+        </div>
+        <div class="card">
+          <h3>自动化验证闭环</h3>
+          <p>AI 生成验证命令并在 Kali 环境安全执行，输出置信度、误报与详细利用指南。</p>
+        </div>
+        <div class="card">
+          <h3>知识增强</h3>
+          <p>侦察记录与参考资料写入 Dify「知识检索」节点，实现结果追溯与复用。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="capabilities" class="focus-section">
+      <h2 class="focus-heading">AI 能力矩阵</h2>
+      <div class="focus-panel">
+        <p>多智能体架构覆盖侦察、攻击面扩展、自动验证与知识回写，下面为核心能力列表：</p>
+      </div>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>侦察 · 信息收集</h3>
+          <ul>
+            <li>DNS / WHOIS / 子域名 / WAF</li>
+            <li>端口扫描（Nmap）</li>
+            <li>技术栈与 CMS 指纹识别</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>攻击面扩展</h3>
+          <ul>
+            <li>目录路径探测，专项测试</li>
+            <li>Tomcat / Spring Boot / Jenkins 场景策略</li>
+            <li>自动补充端口与敏感端点</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>AI 智能验证</h3>
+          <ul>
+            <li>自动命令生成与安全执行</li>
+            <li>实时置信度评估（高/中/低）</li>
+            <li>产出利用指南与命令集</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>结果分类</h3>
+          <p>真实漏洞、误报、待人工，三类输出让安全人员聚焦高优先级事件。</p>
+        </div>
+        <div class="card">
+          <h3>接口扩展</h3>
+          <p>MCP Server、WebSocket 推送与数据库记录，让扫描进度与事件对外共享。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="focus-section">
+      <h2 class="focus-heading">运行流程</h2>
+      <div class="focus-panel">
+        <p>AI 通过工作流驱动每个阶段的决策，形成“输入 → 策略 → 执行 → 回馈”的闭环。</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-step">
+          <span>01</span>
+          <p>任务启动：输入目标、场景（渗透 / 验证 / 情报复现）。</p>
+        </div>
+        <div class="timeline-step">
+          <span>02</span>
+          <p>AI 策略编排：Dify Workflow 调度多代理，读取知识库上下文。</p>
+        </div>
+        <div class="timeline-step">
+          <span>03</span>
+          <p>多阶段扫描：信息收集 → 端口 / 服务 → 指纹 → 漏洞探测。</p>
+        </div>
+        <div class="timeline-step">
+          <span>04</span>
+          <p>AI 决策示例：识别 Tomcat 会补充 8009/8443、/manager、CVE-2020-1938；Spring Boot 直击 /actuator 与 Spring4Shell。</p>
+        </div>
+        <div class="timeline-step">
+          <span>05</span>
+          <p>自动验证（可选）：AI 生成命令 → Kali 执行 → 回传日志。</p>
+        </div>
+        <div class="timeline-step">
+          <span>06</span>
+          <p>结果分级：真实漏洞 / 误报 / 待人工，并附置信度与利用指南。</p>
+        </div>
+        <div class="timeline-step">
+          <span>07</span>
+          <p>交付：HTML/JSON 报告、AI 验证日志、知识库增量同步到外部系统。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="requirements" class="focus-section">
+      <h2 class="focus-heading">运行环境</h2>
+      <div class="focus-panel">
+        <p>控制台、Kali、Dify 与数据安全配置协同，确保 AI 驱动的渗透任务可控、可追溯。</p>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>本地控制台</h3>
+          <ul>
+            <li>Python 3.8+，Windows / Linux / macOS</li>
+            <li>MySQL 5.7+ 存储任务、漏洞与报告</li>
+            <li>支持 Web 界面 & CLI 调度</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Kali Linux</h3>
+          <ul>
+            <li>远程或本地 Kali，需 SSH 访问</li>
+            <li>必备工具：Nmap / Nuclei / Nikto / WhatWeb / Curl / Dig</li>
+            <li>可执行 <code>install_kali_tools.sh</code> 一键安装</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>AI & Dify</h3>
+          <ul>
+            <li>Dify App Key、Base URL、workflow user、timeout</li>
+            <li>知识库默认使用百度千帆，可替换为自定义向量存储</li>
+            <li>MCP Server & WebSocket 输出过程事件</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>数据与安全</h3>
+          <ul>
+            <li>扫描记录写入知识检索节点，支持追溯</li>
+            <li>全部密钥配置在环境变量，避免提交</li>
+            <li>仅在获授权的目标系统上使用</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="quickstart">
+      <h2>快速开始</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>安装依赖</h3>
+          <pre><code>pip install -r requirements.txt</code></pre>
+          <p>建议使用虚拟环境或容器，确保依赖隔离。</p>
+        </div>
+        <div class="card">
+          <h3>配置环境变量</h3>
+          <pre><code>DIFY_API_KEY=your-key
+DIFY_API_BASE_URL=https://api.dify.ai/v1
+KALI_HOST=your-kali-ip
+DB_NAME=pentest_db</code></pre>
+          <p>生产环境使用安全的密钥管理方式，例如 Vault 或 CI 密文。</p>
+        </div>
+        <div class="card">
+          <h3>准备 Kali</h3>
+          <pre><code>sudo apt update && sudo apt upgrade -y
+sudo apt install -y nmap nikto whatweb curl dnsutils
+go install github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+nuclei -update-templates</code></pre>
+        </div>
+      </div>
+      <p>运行方式：<strong>Web UI</strong>（<code>python app.py</code>）实时查看任务；或通过 <strong>MCP/CLI</strong> 将扫描与验证纳入自动化编排。</p>
+    </section>
+
+    <section id="deliverables">
+      <h2>交付物 & 可视化</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>报告输出</h3>
+          <ul>
+            <li>HTML 报告（图表化展示）</li>
+            <li>JSON 报告（结构化数据）</li>
+            <li>AI 验证日志（真实 / 误报 / 待人工）</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>运行状态</h3>
+          <ul>
+            <li>Web 控制台实时视图</li>
+            <li>WebSocket 推送进度与事件</li>
+            <li>知识库增量用于后续任务复用</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="documentation">
+      <h2>文档 & 支持</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>文档</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="README.md" target="_blank">README.md</a></td>
+            <td>平台总览、核心功能与架构</td>
+          </tr>
+          <tr>
+            <td><a href="QUICKSTART.md" target="_blank">QUICKSTART.md</a></td>
+            <td>详细部署指引</td>
+          </tr>
+          <tr>
+            <td><a href="QUICK_START_AI.md" target="_blank">QUICK_START_AI.md</a></td>
+            <td>AI 验证功能上手</td>
+          </tr>
+          <tr>
+            <td><a href="API_DOCUMENTATION.md" target="_blank">API_DOCUMENTATION.md</a></td>
+            <td>REST / MCP 接口说明</td>
+          </tr>
+          <tr>
+            <td><a href="PROJECT_STRUCTURE.md" target="_blank">PROJECT_STRUCTURE.md</a></td>
+            <td>项目结构与模块说明</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>技术支持优先通过 GitHub Issues / Discussions 提交；新增知识源可在 Dify 控制台为「知识检索」节点绑定新的向量库。</p>
+    </section>
+
+    <section id="compliance">
+      <h2>合规声明</h2>
+      <p>
+        本工具仅能在 <strong>明确授权</strong> 的系统和场景下使用。使用者需遵守所在地法律法规，
+        对使用过程与输出结果承担全部法律责任。请负责任地披露发现的漏洞，禁止任何恶意用途。
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 AI 智能渗透测试评估控制台 · Powered by Dify Workflows · MCP Ready
+  </footer>
+</body>
+</html>
